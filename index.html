@@ -45,12 +45,17 @@
 
   .dicon { position: absolute; left: var(--x); top: var(--y); width: var(--w); padding: 0; border: 0; background: none; cursor: pointer;
     translate: var(--px, 0px) var(--py, 0px); rotate: var(--r, 0deg); z-index: 1; transition: translate .6s cubic-bezier(.2,.7,.2,1); }
+  .dicon.fld { animation: folderFloat var(--float-duration, 7s) ease-in-out var(--float-delay, 0s) infinite alternate; }
   .dicon:hover .dframe, .dicon:hover .fold { filter: brightness(1.06); }
   .dlabel { display: block; margin-top: 4px; font-size: 10.5px; line-height: 1.2; color: rgba(255,255,255,.92); text-shadow: 0 1px 3px rgba(0,0,0,.55); text-align: center; letter-spacing: .01em; }
   .dframe { display: block; width: 100%; aspect-ratio: 1.15 / 1; object-fit: cover; border: 3px solid rgba(255,255,255,.96); border-radius: 2px; box-shadow: 0 6px 16px rgba(0,0,0,.35); background: #ddd; }
   .fold { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 5px 8px rgba(0,0,0,.28)); }
   .fold .b { fill: var(--cb); }
   .fold .f { fill: var(--cf); }
+  @keyframes folderFloat {
+    0% { transform: translate3d(-5px, 3px, 0) rotate(-1.5deg); }
+    100% { transform: translate3d(7px, -8px, 0) rotate(2deg); }
+  }
 
   /* ================= SLIDES ================= */
   main { position: relative; z-index: 2; pointer-events: none; }
@@ -162,10 +167,11 @@
   .dk { position: relative; display: block; width: var(--ico); height: var(--ico); padding: 0; border: 0; background: none; cursor: pointer; text-decoration: none;
     transform-origin: 50% 100%; transform: translateY(calc((var(--s, 1) - 1) * var(--ico) * -.22)) scale(var(--s, 1)); transition: transform .16s ease-out; }
   .ico { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 23%; position: relative;
-    background: linear-gradient(var(--c1), var(--c2)); box-shadow: inset 0 1px 0 rgba(255,255,255,.6), inset 0 -.06em .12em rgba(0,0,0,.18), 0 .06em .18em rgba(0,0,0,.35); }
+    background: linear-gradient(#f9e3ec, #efc3d5); box-shadow: inset 0 1px 0 rgba(255,255,255,.72), inset 0 -.06em .12em rgba(133,65,91,.12), 0 .06em .18em rgba(0,0,0,.25); }
   .ico::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(rgba(255,255,255,.34), rgba(255,255,255,0) 52%); pointer-events: none; }
-  .ico svg { width: 56%; height: 56%; fill: #fff; filter: drop-shadow(0 .02em .03em rgba(0,0,0,.3)); position: relative; z-index: 1; }
-  .dk[aria-current="true"]::before { content: ""; position: absolute; left: 50%; bottom: -.16em; width: .07em; height: .07em; min-width: 4px; min-height: 4px; margin-left: -2px; border-radius: 50%; background: rgba(255,255,255,.95); }
+  .ico svg { width: 56%; height: 56%; fill: #a85b7d; color: #a85b7d; filter: drop-shadow(0 .02em .03em rgba(255,255,255,.55)); position: relative; z-index: 1; }
+  .ico svg [stroke] { stroke: currentColor !important; }
+  .dk[aria-current="true"]::before { content: ""; position: absolute; left: 50%; bottom: -.16em; width: .07em; height: .07em; min-width: 4px; min-height: 4px; margin-left: -2px; border-radius: 50%; background: #a85b7d; }
   .sep { width: 1px; align-self: stretch; margin: .1em .15em; background: rgba(255,255,255,.55); }
   .dock-label { position: fixed; z-index: 51; bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(6px, 1.1vh, 11px)); left: 0; translate: -50% 0; padding: 4px 11px; border-radius: 8px;
     font-size: 11.5px; line-height: 1.2; color: #fff; background: rgba(60,60,60,.55); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); white-space: nowrap; opacity: 0; transition: opacity .2s ease, left .22s ease; pointer-events: none; }
@@ -189,7 +195,7 @@
     .js .dicon { opacity: 0; transition: opacity .8s ease, translate .6s cubic-bezier(.2,.7,.2,1); }
     .js.ready .dicon { opacity: 1; transition-delay: calc(var(--k, 0) * .06s + .2s), 0s; }
   }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .hint::after { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .hint::after, .dicon.fld { animation: none; } }
 
   /* ================= SMALL / SHORT SCREENS: flowing windows ================= */
   @media (max-width: 860px), (max-height: 600px) {
@@ -226,20 +232,10 @@
   <div class="ribs"></div>
   <div class="vig"></div>
 
-  <button class="dicon fld" style="--x:5%;--y:6%;--w:64px;--cb:#ff8a91;--cf:#ff6b73;--k:0" data-depth="14" data-target="s-cta-1" tabindex="-1"><svg class="fold" viewBox="0 0 64 54"><path class="b" d="M3 9a5 5 0 0 1 5-5h15l6 6h27a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path class="f" d="M3 17a5 5 0 0 1 5-5h48a5 5 0 0 1 5 5v28a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/></svg><span class="dlabel">cta apparels</span></button>
-  <button class="dicon fld" style="--x:88%;--y:5%;--w:64px;--cb:#a9f25a;--cf:#86e832;--k:1" data-depth="18" data-target="s-research" tabindex="-1"><svg class="fold" viewBox="0 0 64 54"><path class="b" d="M3 9a5 5 0 0 1 5-5h15l6 6h27a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path class="f" d="M3 17a5 5 0 0 1 5-5h48a5 5 0 0 1 5 5v28a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/></svg><span class="dlabel">iscm research</span></button>
-  <button class="dicon fld" style="--x:7%;--y:41%;--w:64px;--cb:#4db4ff;--cf:#2f9bf5;--k:2" data-depth="10" data-target="s-seg-1" tabindex="-1"><svg class="fold" viewBox="0 0 64 54"><path class="b" d="M3 9a5 5 0 0 1 5-5h15l6 6h27a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path class="f" d="M3 17a5 5 0 0 1 5-5h48a5 5 0 0 1 5 5v28a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/></svg><span class="dlabel">segmentation</span></button>
-  <button class="dicon fld" style="--x:88%;--y:58%;--w:64px;--cb:#ffb3a3;--cf:#ff9b88;--k:3" data-depth="16" data-target="s-intern-0" tabindex="-1"><svg class="fold" viewBox="0 0 64 54"><path class="b" d="M3 9a5 5 0 0 1 5-5h15l6 6h27a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path class="f" d="M3 17a5 5 0 0 1 5-5h48a5 5 0 0 1 5 5v28a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/></svg><span class="dlabel">internship</span></button>
-
-  <button class="dicon thumb" style="--x:15%;--y:3%;--w:78px;--r:-5deg;--k:4" data-depth="22" data-target="s-cta-1" tabindex="-1"><img class="dframe" data-img="cta-dashboard" alt=""><span class="dlabel">risk dashboard</span></button>
-  <button class="dicon thumb" style="--x:25%;--y:2%;--w:68px;--r:4deg;--k:5" data-depth="26" data-target="s-cta-4" tabindex="-1"><img class="dframe" data-img="team-review" alt=""><span class="dlabel">jury review</span></button>
-  <button class="dicon thumb" style="--x:58%;--y:2%;--w:80px;--r:-3deg;--k:6" data-depth="24" data-target="s-cta-2" tabindex="-1"><img class="dframe" data-img="style-card" alt=""><span class="dlabel">style card</span></button>
-  <button class="dicon thumb" style="--x:70%;--y:1.5%;--w:70px;--r:5deg;--k:7" data-depth="20" data-target="s-cta-3" tabindex="-1"><img class="dframe" data-img="risk-parameters" alt=""><span class="dlabel">risk parameters</span></button>
-  <button class="dicon thumb" style="--x:3%;--y:63%;--w:74px;--r:5deg;--k:8" data-depth="22" data-target="s-seg-3" tabindex="-1"><img class="dframe" data-img="cluster-scatter" alt=""><span class="dlabel">cluster plot</span></button>
-  <button class="dicon thumb" style="--x:11%;--y:71%;--w:76px;--r:-5deg;--k:9" data-depth="26" data-target="s-seg-1" tabindex="-1"><img class="dframe" data-img="customer-data" alt=""><span class="dlabel">customer data</span></button>
-  <button class="dicon thumb" style="--x:91%;--y:27%;--w:64px;--r:3deg;--k:10" data-depth="20" data-target="s-intern-1" tabindex="-1"><img class="dframe" data-img="internship-workspace" alt=""><span class="dlabel">workspace</span></button>
-  <button class="dicon thumb" style="--x:80%;--y:71%;--w:80px;--r:-4deg;--k:11" data-depth="24" data-target="s-how" tabindex="-1"><img class="dframe" data-img="dashboard-overview" alt=""><span class="dlabel">dashboard</span></button>
-  <button class="dicon thumb" style="--x:2%;--y:25%;--w:70px;--r:-6deg;--k:12" data-depth="18" data-target="s-seg-4" tabindex="-1"><img class="dframe" data-img="knn-evaluation" alt=""><span class="dlabel">knn results</span></button>
+  <button class="dicon fld" style="--x:5%;--y:6%;--w:64px;--cb:#f9e3ec;--cf:#efc3d5;--float-duration:7.2s;--float-delay:-1.2s;--k:0" data-depth="14" data-target="s-cta-1" tabindex="-1"><svg class="fold" viewBox="0 0 64 54"><path class="b" d="M3 9a5 5 0 0 1 5-5h15l6 6h27a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path class="f" d="M3 17a5 5 0 0 1 5-5h48a5 5 0 0 1 5 5v28a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/></svg><span class="dlabel">cta apparels</span></button>
+  <button class="dicon fld" style="--x:88%;--y:5%;--w:64px;--cb:#f9e3ec;--cf:#efc3d5;--float-duration:8.4s;--float-delay:-3.4s;--k:1" data-depth="18" data-target="s-research" tabindex="-1"><svg class="fold" viewBox="0 0 64 54"><path class="b" d="M3 9a5 5 0 0 1 5-5h15l6 6h27a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path class="f" d="M3 17a5 5 0 0 1 5-5h48a5 5 0 0 1 5 5v28a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/></svg><span class="dlabel">iscm research</span></button>
+  <button class="dicon fld" style="--x:7%;--y:41%;--w:64px;--cb:#f9e3ec;--cf:#efc3d5;--float-duration:6.6s;--float-delay:-2.1s;--k:2" data-depth="10" data-target="s-seg-1" tabindex="-1"><svg class="fold" viewBox="0 0 64 54"><path class="b" d="M3 9a5 5 0 0 1 5-5h15l6 6h27a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path class="f" d="M3 17a5 5 0 0 1 5-5h48a5 5 0 0 1 5 5v28a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/></svg><span class="dlabel">segmentation</span></button>
+  <button class="dicon fld" style="--x:88%;--y:58%;--w:64px;--cb:#f9e3ec;--cf:#efc3d5;--float-duration:9s;--float-delay:-4.8s;--k:3" data-depth="16" data-target="s-intern-0" tabindex="-1"><svg class="fold" viewBox="0 0 64 54"><path class="b" d="M3 9a5 5 0 0 1 5-5h15l6 6h27a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path class="f" d="M3 17a5 5 0 0 1 5-5h48a5 5 0 0 1 5 5v28a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/></svg><span class="dlabel">internship</span></button>
 </div>
 
 <div class="counter" id="counter" aria-hidden="true"></div>
